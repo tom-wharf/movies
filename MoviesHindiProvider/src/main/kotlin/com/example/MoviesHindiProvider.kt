@@ -93,16 +93,16 @@ class MoviesHindiProvider : MainAPI() { // all providers must be an instance of 
 
         details.select(".gmr-movie-innermeta").forEach { element -> 
             element.select("[class^=gmr-movie]").forEach { t -> 
-                val txt = t.?text()
+                var txt: String = t.text()
                 
                 if(txt.contains("Year")) {
-                    year = txt.split(":")[1]
+                    year = txt.?split(":")[1]
                 }
-                else(txt.contains("Genre")) {
+                if(txt.contains("Genre")) {
                     tags = t.select("a").mapNotNull { it.text() }
                 }
-                else(txt.contains("Duration")) {
-                    duration = txt.split(":")[1]
+                if(txt.contains("Duration")) {
+                    duration = txt.?split(":")[1]
                 }
             }
         }
