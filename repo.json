@@ -3,6 +3,6 @@
     "description": "Cloudstream Hindi Movies Plugin Repository",
     "manifestVersion": 1,
     "pluginLists": [
-      "https://raw.githubusercontent.com/tom-wharf/movies/master/build/plugins.json"
+      "https://codeberg.org/cloudstream/cloudstream-extensions/raw/branch/builds/plugins.json"
     ]
   }
