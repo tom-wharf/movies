@@ -83,7 +83,7 @@ class MoviesHindiProvider : MainAPI() { // all providers must be an instance of 
         val duration = Regex("""[Dd]uration:\s*(\d*)""").find(
             document.select("div.elements").text()
         )?.groupValues?.get(1)?.trim()?.plus(" min")*/
-        var duration = details.select(".gmr-movie-runtime").text().split(":")[1]
+        var duration: String? = null// details.select(".gmr-movie-runtime").text().split(":")[1]
         var year: Int? = null
         var tags: List<String>? = null
         var cast: List<String>? = null
@@ -96,13 +96,13 @@ class MoviesHindiProvider : MainAPI() { // all providers must be an instance of 
                 var txt: String = t.text()
                 
                 if(txt.contains("Year")) {
-                    year = txt.?split(":")[1]
+                    year = txt.split(":")[1].toIntOrNull()
                 }
                 if(txt.contains("Genre")) {
                     tags = t.select("a").mapNotNull { it.text() }
                 }
                 if(txt.contains("Duration")) {
-                    duration = txt.?split(":")[1]
+                    duration = txt.split(":")[1]
                 }
             }
         }
