@@ -115,8 +115,8 @@ class MoviesHindiProvider : MainAPI() { // all providers must be an instance of 
 
 
 
-        val plot = details.select("div[itemprop=description] > p").first()?.text()
-        val sourceUrl = document.selectFirst("video#video > source")?.attr("src")
+        val plot = document.select("div[itemprop=description] > p").first()?.text()
+        val sourceUrl: String? = document.selectFirst("video > source").?attr("src")
 
         return newMovieLoadResponse(title, url, TvType.Movie, sourceUrl) {
             this.year = year
