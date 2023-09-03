@@ -17,6 +17,7 @@ import com.lagradost.cloudstream3.utils.AppUtils.parseJson
 import com.lagradost.cloudstream3.utils.AppUtils.tryParseJson
 import com.lagradost.cloudstream3.utils.Coroutines.ioSafe
 import com.lagradost.cloudstream3.utils.ExtractorLink
+import com.lagradost.cloudstream3.utils.Qualities
 import com.lagradost.cloudstream3.utils.M3u8Helper
 import com.lagradost.cloudstream3.utils.getQualityFromName
 import com.lagradost.cloudstream3.utils.loadExtractor
@@ -132,6 +133,30 @@ class MoviesHindiProvider : MainAPI() { // all providers must be an instance of 
 
 
 
+    override suspend fun loadLinks(
+        data: String,
+        isCasting: Boolean,
+        subtitleCallback: (SubtitleFile) -> Unit,
+        callback: (ExtractorLink) -> Unit
+    ): Boolean {
+        // println("loadling link $data")
+        //-H 'referer: https://111.90.159.132/'
+
+        val authHeader = mapOf("referer" to "$mainUrl")  // refresh crendentials
+
+        callback.invoke (
+            ExtractorLink(
+                name,
+                name,
+                data,
+                "",  // referer not needed
+                Qualities.Unknown.value,
+                false,
+                authHeader,
+            )
+        )
+        return true
+    }
 
 
 
