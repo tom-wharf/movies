@@ -55,7 +55,7 @@ class MoviesHindiProvider : MainAPI() { // all providers must be an instance of 
             val title = it.select("p.entry-title").text()
             val href = fixUrl(it.select("div.gmr-watch-movie > a").attr("href"))
             // val year = it.select("span.fdi-item").text().toIntOrNull()
-            val image = it.select("img").attr("data-src")
+            val image = it.select("img").attr("src")
 
             MovieSearchResponse(
                 title,
