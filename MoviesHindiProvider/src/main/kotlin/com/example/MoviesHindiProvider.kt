@@ -66,4 +66,72 @@ class MoviesHindiProvider : MainAPI() { // all providers must be an instance of 
             )
         }
     }
+
+
+    override suspend fun load(url: String): LoadResponse {
+        val document = app.get(url).document
+
+        val details = document.select("div.gmr-movie-data")
+        val img = details.select("img.attachment-thumbnail")
+        val posterUrl = img.attr("src")
+        val title = details.select("entry-title").text() ?: throw ErrorLoadingException("No Title")
+
+        /*
+        val year = Regex("""[Rr]eleased:\s*(\d{4})""").find(
+            document.select("div.elements").text()
+        )?.groupValues?.get(1)?.toIntOrNull()
+        val duration = Regex("""[Dd]uration:\s*(\d*)""").find(
+            document.select("div.elements").text()
+        )?.groupValues?.get(1)?.trim()?.plus(" min")*/
+        var duration = details.select(".gmr-movie-runtime").text().split(":")[1]
+        var year: Int? = null
+        var tags: List<String>? = null
+        var cast: List<String>? = null
+        val youtubeTrailer = document.selectFirst("iframe.video__media")?.attr("data-src")
+        val rating = document.selectFirst(".gmr-meta-rating > span[itemprop=ratingValue]")?.text().toRatingInt()
+
+
+        details.select(".gmr-movie-innermeta").forEach { element -> 
+            element.select("[class^=gmr-movie]").forEach { t -> 
+                val txt = t.?text()
+                
+                if(txt.contains("Year")) {
+                    year = txt.split(":")[1]
+                }
+                else(txt.contains("Genre")) {
+                    tags = t.select("a").mapNotNull { it.text() }
+                }
+                else(txt.contains("Duration")) {
+                    duration = txt.split(":")[1]
+                }
+            }
+        }
+        
+        details.select("gmr-moviedata").forEach { element -> 
+            if(element.text().contains("Cast")) {
+                cast = element.select("a").mapNotNull { it.text() }
+            }
+        }
+
+
+
+        val plot = details.select("div[itemprop=description] > p").text()
+        
+        return newMovieLoadResponse(title, url, TvType.Movie, fixUrl(url)) {
+            this.year = year
+            this.posterUrl = posterUrl
+            this.plot = plot
+            addDuration(duration)
+            addActors(cast)
+            this.tags = tags
+            addTrailer(youtubeTrailer)
+            this.rating = rating
+        }
+    }
+
+
+
+
+
+
 }
