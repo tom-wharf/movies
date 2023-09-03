@@ -3,10 +3,11 @@
 /local.properties
 /.idea
 .DS_Store
-/build
-**/build
+# /build
+# **/build
 /captures
 .externalNativeBuild
 .cxx
 local.properties
 .vscode
+.gitignore

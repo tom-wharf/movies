@@ -1,0 +1,19 @@
+[
+    {
+        "apiVersion": 1,
+        "repositoryUrl": "https://github.com/user/repo",
+        "fileSize": 4663,
+        "status": 1,
+        "authors": [
+            "Cloudburst"
+        ],
+        "tvTypes": [
+            "Movie"
+        ],
+        "version": 1,
+        "internalName": "MoviesHindiProvider",
+        "description": "Lorem Ipsum",
+        "url": "https://raw.githubusercontent.com/user/repo/builds/MoviesHindiProvider.cs3",
+        "name": "MoviesHindiProvider"
+    }
+]
